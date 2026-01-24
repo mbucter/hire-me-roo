@@ -1,0 +1,22 @@
+[project]
+name = "hire-me-roo"
+version = "0.1.0"
+description = "Sample project for analyzing Google Places API vet clinics & relevant review sentiment."
+authors = [
+    {name = "Matt Bucter"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas (>=3.0.0,<4.0.0)",
+    "openai (>=2.15.0,<3.0.0)",
+    "requests (>=2.32.5,<3.0.0)",
+    "pyyaml (>=6.0.3,<7.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "psycopg[binary] (>=3.3.2,<4.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

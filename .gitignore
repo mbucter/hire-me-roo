@@ -1,0 +1,22 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Poetry
+.venv/
+.poetry/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Logs / data
+*.log
