@@ -1,0 +1,27 @@
+schema: raw
+table_name: places
+primary_key:
+- place_id
+columns:
+- name: place_id
+  nullable: false
+  type: text
+- name: latitude
+  type: double precision
+- name: longitude
+  type: double precision
+- name: rating
+  type: real
+- name: website_uri
+  type: text
+- name: business_status
+  type: text
+- name: user_rating_count
+  type: bigint
+- name: display_name
+  type: text
+- name: user_review_count
+  type: bigint
+- default: now()
+  name: created_at
+  type: timestamp
