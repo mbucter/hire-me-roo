@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-class ConvertPlacesJSONTabular(object):
+class ConvertPlacesJSONTabular:
     def __init__(self, input_json):
         self.input_json = input_json
         self.json_data = self.load_json()
