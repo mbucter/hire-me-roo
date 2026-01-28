@@ -1,0 +1,25 @@
+schema: llm
+table_name: review_sentiment
+primary_key:
+- review_id
+- llm_run_id
+- prompt_name
+columns:
+- name: review_id
+  nullable: false
+  type: text
+- name: llm_run_id
+  nullable: false
+  type: text
+- name: prompt_name
+  nullable: false
+  type: text
+- name: prompt_subject_exists
+  type: bool
+- name: sentiment_score
+  type: bigint
+- name: evidence
+  type: text
+- default: now()
+  name: created_at
+  type: timestamp

@@ -1,0 +1,23 @@
+schema: llm
+table_name: review_sentiment_meta
+primary_key:
+- llm_run_id
+- prompt_name
+columns:
+- name: llm_run_id
+  nullable: false
+  type: text
+- name: prompt_name
+  nullable: false
+  type: text
+- name: model
+  type: text
+- name: prompt_version
+  type: text
+- name: temperature
+  type: real
+- name: top_p
+  type: real
+- default: now()
+  name: created_at
+  type: timestamp

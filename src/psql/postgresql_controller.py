@@ -4,10 +4,13 @@ import yaml
 import pandas as pd
 from dotenv import load_dotenv
 
+from src.utils.logger import get_logger
+
 
 class PostgreSQLController:
     def __init__(self):
         load_dotenv()
+        self.logger = get_logger(__name__)
         self.conn = self.get_conn()
         self.cursor = self.conn.cursor()
 
@@ -25,6 +28,7 @@ class PostgreSQLController:
 
     def create_sql_table(self, schema_dict: dict):
         schema_name = schema_dict['schema']
+        self.create_schema(schema_name)
         table_name = schema_dict['table_name']
         columns = schema_dict['columns']
         primary_key = schema_dict.get('primary_key', [])
@@ -64,9 +68,12 @@ class PostgreSQLController:
     def insert_df_into_table(self, df: pd.DataFrame, table_name: str, prim_key_names: list, schema_name: str = ""):
         if schema_name:
             table_name = f"{schema_name}.{table_name}"
-        df = df.where(pd.notnull(df), None)
+        # df = df.where(pd.notnull(df), None)
+        # df = df.replace("", None)
+        # data = list(df.itertuples(index=False, name=None))
+        df = df.astype(object).where(pd.notnull(df), None)
         df = df.replace("", None)
-        data = list(df.itertuples(index=False, name=None))
+        data = df.values.tolist()
         df_col_list = list(df.columns)
         psql_col_list = [self.convert_pd_col_to_psql_col(col) for col in df_col_list]
         psql_col_names = ", ".join(psql_col_list)
@@ -84,12 +91,3 @@ class PostgreSQLController:
         except Exception as e:
             self.conn.rollback()
             raise
-
-
-if __name__ == "__main__":
-    controller = PostgreSQLController()
-    schema_path = r"/Users/mattbucter/git/hire-me-roo/src/psql/schemas/places_reviews.yaml"
-    with open(schema_path) as f:
-        schema = yaml.safe_load(f)
-    controller.create_sql_table(schema)
-    print("Done.")
