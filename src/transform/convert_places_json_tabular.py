@@ -1,21 +1,35 @@
 import os
 import json
-import numpy as np
 import pandas as pd
+
+from utils.logger import get_logger
 
 
 class ConvertPlacesJSONTabular:
+    """
+    Class to handle converting Google Places JSON data into tabular format.
+    """
     def __init__(self, input_json):
+        self.logger = get_logger(__name__)
         self.input_json = input_json
         self.json_data = self.load_json()
 
     def load_json(self):
+        """
+        Load local JSON file.
+        :return: Dictionary of JSON data.
+        """
         if type(self.input_json) is str and os.path.exists(self.input_json):
             with open(self.input_json, "r") as f:
                 json_data = json.load(f)
             return json_data
 
     def convert_one_place(self, place_dict):
+        """
+        Convert one Google Place from dict to pandas row format.
+        :param place_dict: Input dict.
+        :return: Output dict (formatted for pandas).
+        """
         data_row = {}
         data_row['place_id'] = place_dict.get('id', '')
         data_row['latitude'] = place_dict.get('location', {}).get('latitude', '')
@@ -30,6 +44,11 @@ class ConvertPlacesJSONTabular:
         return data_row
 
     def convert_one_place_reviews(self, place_dict):
+        """
+        Convert one Google Place reviews from dict to pandas row format.
+        :param place_dict: Input dict.
+        :return: List of output dicts (formatted for pandas).
+        """
         data = []
         if not "reviews" in place_dict:
             return data
@@ -48,6 +67,10 @@ class ConvertPlacesJSONTabular:
         return data
 
     def convert_json_to_df(self):
+        """
+        Convert Google Place JSON data into pandas dataframe.
+        :return: Two pandas dataframes for places and reviews.
+        """
         places_list = self.json_data['places']
         places_data = []
         place_reviews_data = []
